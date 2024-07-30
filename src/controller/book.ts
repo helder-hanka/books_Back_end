@@ -1,5 +1,8 @@
 import { Request, Response } from "express";
+<<<<<<< HEAD
 import Book from "../models/Book";
+=======
+>>>>>>> 817e6a9 (Define operation getBooks func)
 
 export const getBooks = (req: Request, res: Response) => {
   console.log("ok");
@@ -9,6 +12,7 @@ export const getBooks = (req: Request, res: Response) => {
     res.status(500).json({ error: "error" });
   }
 };
+<<<<<<< HEAD
 
 export const createBook = async (req: Request, res: Response) => {
   const Uid = "66aa5fcfbb18321a4e028fcd";
@@ -20,3 +24,5 @@ export const createBook = async (req: Request, res: Response) => {
     res.status(500).json({ error: error.message });
   }
 };
+=======
+>>>>>>> 817e6a9 (Define operation getBooks func)
