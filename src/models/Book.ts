@@ -1,67 +1,63 @@
 import { Schema, model, Document } from "mongoose";
 
-interface IRating {
-  userId: Schema.Types.ObjectId;
-  grade: number;
-}
+// interface IRating {
+//   userId: Schema.Types.ObjectId;
+//   grade: number;
+// }
 
 export interface IBook extends Document {
   title: string;
   author: string;
   imageUrl: string;
+  year: number;
   genre: string;
-  ratings: IRating[];
+  // ratings: IRating[];
   averageRating: number;
-  User: Schema.Types.ObjectId;
+  UserId: Schema.Types.ObjectId;
 }
 
-const ratingSchema = new Schema<IRating>({
-  userId: {
-    type: Schema.Types.ObjectId,
-    required: true,
-  },
-  grade: {
-    type: Number,
-    required: true,
-  },
-});
+// const ratingSchema = new Schema<IRating>({
+//   userId: {
+//     type: Schema.Types.ObjectId,
+//     required: true,
+//   },
+//   grade: {
+//     type: Number,
+//     required: true,
+//   },
+// });
 
-const BookSchema = new Schema<IBook>({
-  title: {
-    type: String,
-    required: true,
-  },
-  author: {
-    type: String,
-    required: true,
-  },
-  imageUrl: {
-    type: String,
-    required: true,
-  },
-  genre: {
-    type: String,
-    required: true,
-  },
-  ratings: {
-    userId: {
-      type: Schema.Types.ObjectId,
+const BookSchema = new Schema<IBook>(
+  {
+    title: {
+      type: String,
       required: true,
     },
-    grade: {
+    author: {
+      type: String,
+      required: true,
+    },
+    imageUrl: {
+      type: String,
+      required: true,
+    },
+    year: { type: Number, required: true },
+    genre: {
+      type: String,
+      required: true,
+    },
+    // ratings: [ratingSchema],
+    averageRating: {
       type: Number,
       required: true,
     },
+    UserId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+    },
   },
-  averageRating: {
-    type: Number,
-    required: true,
-  },
-  User: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    ref: "User",
-  },
-});
+  { timestamps: true }
+);
 
 export default model<IBook>("Book", BookSchema);
