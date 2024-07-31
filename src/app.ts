@@ -15,7 +15,7 @@ mongoose
 const app = express();
 app.use(express.json());
 app.use(bodyParser.json());
-app.use("/api", book);
+app.use("/api/books", book);
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
