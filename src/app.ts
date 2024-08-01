@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import book from "./routes/book";
+import user from "./routes/user";
 
 dotenv.config();
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -16,6 +17,7 @@ const app = express();
 app.use(express.json());
 app.use(bodyParser.json());
 app.use("/api/books", book);
+app.use("api/auth", user);
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
