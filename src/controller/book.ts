@@ -11,11 +11,10 @@ export const getBooks = (req: Request, res: Response) => {
 };
 
 export const createBook = async (req: Request, res: Response) => {
-  const Uid = "66aa5fcfbb18321a4e028fcd";
   try {
-    const book = new Book({ ...req.body, UserId: Uid });
-    const a = await book.save();
-    res.status(201).json(a);
+    const book = new Book({ ...req.body, UserId: req.userId });
+    await book.save();
+    res.status(201).json({ message: "Product created successfully!" });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
