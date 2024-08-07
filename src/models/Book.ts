@@ -1,9 +1,9 @@
 import { Schema, model, Document } from "mongoose";
 
-// interface IRating {
-//   userId: Schema.Types.ObjectId;
-//   grade: number;
-// }
+interface IRating {
+  userId: Schema.Types.ObjectId;
+  grade: number;
+}
 
 export interface IBook extends Document {
   title: string;
@@ -11,21 +11,21 @@ export interface IBook extends Document {
   imageUrl: string;
   year: number;
   genre: string;
-  // ratings: IRating[];
+  ratings: IRating[];
   averageRating: number;
   UserId: Schema.Types.ObjectId;
 }
 
-// const ratingSchema = new Schema<IRating>({
-//   userId: {
-//     type: Schema.Types.ObjectId,
-//     required: true,
-//   },
-//   grade: {
-//     type: Number,
-//     required: true,
-//   },
-// });
+const ratingSchema = new Schema<IRating>({
+  userId: {
+    type: Schema.Types.ObjectId,
+    required: true,
+  },
+  grade: {
+    type: Number,
+    required: true,
+  },
+});
 
 const BookSchema = new Schema<IBook>(
   {
@@ -46,10 +46,10 @@ const BookSchema = new Schema<IBook>(
       type: String,
       required: true,
     },
-    // ratings: [ratingSchema],
+    ratings: [ratingSchema],
     averageRating: {
       type: Number,
-      required: true,
+      required: false,
     },
     UserId: {
       type: Schema.Types.ObjectId,
