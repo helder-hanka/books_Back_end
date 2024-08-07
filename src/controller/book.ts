@@ -1,11 +1,10 @@
 import { Request, Response } from "express";
 import Book from "../models/Book";
-import { get } from "http";
 
-export const getBooks = (req: Request, res: Response) => {
-  console.log("ok");
+export const getBooks = async (req: Request, res: Response) => {
   try {
-    res.status(200).json({ message: "ok" });
+    const books = await Book.find();
+    res.status(200).json({ books: books });
   } catch (error) {
     res.status(500).json({ error: "error" });
   }
