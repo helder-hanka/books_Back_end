@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import book from "./routes/book";
 import user from "./routes/user";
+import path from "path";
 
 dotenv.config();
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use("/api/books", book);
 app.use("/api/auth", user);
+app.use("/images", express.static(path.join(__dirname, "../images")));
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
