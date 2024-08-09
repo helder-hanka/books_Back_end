@@ -68,3 +68,24 @@ export const updateBook = async (req: Request, res: Response) => {
     res.status(500).json(error);
   }
 };
+
+export const deleteBook = async (req: Request, res: Response) => {
+  const uid = req.userId;
+  const productId = req.params.id;
+  try {
+    const product = await Book.findOne({ _id: productId });
+
+    if (!product) {
+      console.log("Product not found");
+      throw new Error("Product not found");
+    }
+    if (uid !== product?.UserId.toString()) {
+      console.log("Not authorized");
+      throw new Error("Not authorized");
+    }
+    await Book.deleteOne({ _id: productId });
+    res.status(200).json({ message: "Book deleted" });
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
+};
