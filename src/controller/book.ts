@@ -11,6 +11,20 @@ export const getBooks = async (req: Request, res: Response) => {
   }
 };
 
+export const getBooksById = async (req: Request, res: Response) => {
+  try {
+    const book = await Book.findById(req.params.id);
+
+    if (!book) {
+      throw new Error("Product not found");
+    }
+
+    res.status(200).json({ book: book });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
 export const createBook = async (req: Request, res: Response) => {
   const imgFile = req.file;
   try {
