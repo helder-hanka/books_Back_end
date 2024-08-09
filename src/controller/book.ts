@@ -85,19 +85,17 @@ export const updateBook = async (req: Request, res: Response) => {
 
 export const deleteBook = async (req: Request, res: Response) => {
   const uid = req.userId;
-  const productId = req.params.id;
+  const bookId = req.params.id;
   try {
-    const product = await Book.findOne({ _id: productId });
-
-    if (!product) {
-      console.log("Product not found");
-      throw new Error("Product not found");
+    const book = await Book.findOne({ _id: bookId });
+    if (!book) {
+      throw new Error("book not found");
     }
-    if (uid !== product?.UserId.toString()) {
-      console.log("Not authorized");
+    if (uid !== book?.UserId.toString()) {
       throw new Error("Not authorized");
     }
-    await Book.deleteOne({ _id: productId });
+    clearImg(`images/${book.imageUrl.split("/images/")[1]}`);
+    await Book.deleteOne({ _id: bookId });
     res.status(200).json({ message: "Book deleted" });
   } catch (error) {
     res.status(500).json({ message: error });
