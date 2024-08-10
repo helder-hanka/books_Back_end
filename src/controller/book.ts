@@ -107,6 +107,9 @@ export const averageRating = async (req: Request, res: Response) => {
   const bookId = req.params.id;
   const { grade } = req.body;
   try {
+    if (grade < 1 || grade > 5) {
+      throw new Error("The grade must be between 1 and 5");
+    }
     const book = await Book.findById(bookId);
     if (!book) {
       throw new Error("Book not found");
