@@ -101,3 +101,45 @@ export const deleteBook = async (req: Request, res: Response) => {
     res.status(500).json({ message: error });
   }
 };
+
+export const averageRating = async (req: Request, res: Response) => {
+  const uid = req.userId;
+  const bookId = req.params.id;
+  const { grade } = req.body;
+  try {
+    const book = await Book.findById(bookId);
+    if (!book) {
+      throw new Error("Book not found");
+    }
+
+    const isUserInRating = book.ratings.some(
+      (rating) => rating.userId.toString() === uid
+    );
+    if (isUserInRating) {
+      throw new Error("Not authorized");
+    }
+
+    await Book.findByIdAndUpdate(bookId, {
+      $push: { ratings: { userId: uid, grade } },
+    });
+
+    const bookAverageRating = await Book.findByIdAndUpdate(
+      bookId,
+      [
+        {
+          $set: {
+            averageRating: { $avg: "$ratings.grade" },
+          },
+        },
+      ],
+      { new: true }
+    );
+
+    res.status(201).json({
+      message: "Rating added and average updated successfully",
+      book: bookAverageRating,
+    });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
