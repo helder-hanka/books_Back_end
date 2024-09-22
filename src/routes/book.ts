@@ -14,8 +14,8 @@ import { uploadImg } from "../middleware/multer-config";
 const router = Router();
 
 router.get("/", getBooks);
-router.get("/:id", getBooksById);
 router.get("/bestrating", bestrating);
+router.get("/:id", getBooksById);
 router.post("/", auth, uploadImg, createBook);
 router.post("/:id/rating", auth, averageRating);
 router.put("/:id", auth, uploadImg, updateBook);
