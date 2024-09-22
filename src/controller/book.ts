@@ -58,7 +58,6 @@ export const updateBook = async (req: Request, res: Response) => {
     if (!imageUrl) {
       throw new Error("No image provided");
     }
-
     const book = await Book.findById(paramId);
 
     if (book?.UserId != uid) {
@@ -78,8 +77,8 @@ export const updateBook = async (req: Request, res: Response) => {
       imageUrl: imageUrl,
     });
     res.status(200).json({ message: "Product updated" });
-  } catch (error) {
-    res.status(500).json(error);
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
   }
 };
 
