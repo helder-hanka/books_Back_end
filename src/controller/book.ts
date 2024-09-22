@@ -68,14 +68,15 @@ export const updateBook = async (req: Request, res: Response) => {
       throw new Error("Product not found");
     }
 
-    if (imgFile) {
-      clearImg(`images/${book.imageUrl.split("/images/")[1]}`);
-    }
-
     await Book.findByIdAndUpdate(paramId, {
       ...req.body,
       imageUrl: imageUrl,
     });
+
+    if (imgFile) {
+      clearImg(`images/${book.imageUrl.split("/images/")[1]}`);
+    }
+
     res.status(200).json({ message: "Product updated" });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
