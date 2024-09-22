@@ -87,14 +87,15 @@ export const deleteBook = async (req: Request, res: Response) => {
   const bookId = req.params.id;
   try {
     const book = await Book.findOne({ _id: bookId });
+    const imgBook = book?.imageUrl;
     if (!book) {
       throw new Error("book not found");
     }
     if (uid !== book?.UserId.toString()) {
       throw new Error("Not authorized");
     }
-    clearImg(`images/${book.imageUrl.split("/images/")[1]}`);
     await Book.deleteOne({ _id: bookId });
+    clearImg(`images/${imgBook?.split("/images/")[1]}`);
     res.status(200).json({ message: "Book deleted" });
   } catch (error) {
     res.status(500).json({ message: error });
