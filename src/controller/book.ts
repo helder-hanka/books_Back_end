@@ -46,7 +46,6 @@ export const createBook = async (req: Request, res: Response) => {
 };
 
 export const updateBook = async (req: Request, res: Response) => {
-  const { params } = req.body;
   const paramId = req.params.id;
   const uid = req.userId;
   const imgFile = req.file?.filename;
