@@ -13,7 +13,7 @@ export interface IBook extends Document {
   genre: string;
   ratings: IRating[];
   averageRating: number;
-  UserId: Schema.Types.ObjectId;
+  userId: Schema.Types.ObjectId;
 }
 
 const ratingSchema = new Schema<IRating>({
@@ -51,7 +51,7 @@ const BookSchema = new Schema<IBook>(
       type: Number,
       required: false,
     },
-    UserId: {
+    userId: {
       type: Schema.Types.ObjectId,
       required: true,
       ref: "User",
