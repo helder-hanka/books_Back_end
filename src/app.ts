@@ -15,12 +15,6 @@ mongoose
   .catch((err) => console.error("Could not connect to MongoDB", err));
 
 const app = express();
-app.use(express.json());
-app.use(bodyParser.json());
-app.use("/api/books", book);
-app.use("/api/auth", user);
-app.use("/images", express.static(path.join(__dirname, "../images")));
-
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -33,5 +27,10 @@ app.use((req, res, next) => {
   );
   next();
 });
+app.use(express.json());
+app.use(bodyParser.json());
+app.use("/api/books", book);
+app.use("/api/auth", user);
+app.use("/images", express.static(path.join(__dirname, "../images")));
 
 export default app;
