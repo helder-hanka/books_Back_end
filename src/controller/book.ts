@@ -5,7 +5,7 @@ import { clearImg } from "../util/fs";
 export const getBooks = async (req: Request, res: Response) => {
   try {
     const books = await Book.find();
-    res.status(200).json({ books: books });
+    res.status(200).json(books);
   } catch (error) {
     res.status(500).json({ error: "error" });
   }
@@ -14,26 +14,26 @@ export const getBooks = async (req: Request, res: Response) => {
 export const getBooksById = async (req: Request, res: Response) => {
   try {
     const book = await Book.findById(req.params.id);
-
     if (!book) {
       throw new Error("Product not found");
     }
 
-    res.status(200).json({ book: book });
+    res.status(200).json(book);
   } catch (error) {
     res.status(500).json(error);
   }
 };
 
 export const createBook = async (req: Request, res: Response) => {
+  const body = JSON.parse(req.body.book);
   const imgFile = req.file;
   try {
     if (!imgFile) {
       throw new Error("No image provided");
     }
     const book = new Book({
-      ...req.body,
-      UserId: req.userId,
+      ...body,
+      userId: req.userId,
       imageUrl: `${req.protocol}://${req.get("host")}/images/${
         req.file?.filename
       }`,
@@ -59,7 +59,7 @@ export const updateBook = async (req: Request, res: Response) => {
     }
     const book = await Book.findById(paramId);
 
-    if (book?.UserId != uid) {
+    if (book?.userId != uid) {
       throw new Error("Not authorized");
     }
 
@@ -91,7 +91,7 @@ export const deleteBook = async (req: Request, res: Response) => {
     if (!book) {
       throw new Error("book not found");
     }
-    if (uid !== book?.UserId.toString()) {
+    if (uid !== book?.userId.toString()) {
       throw new Error("Not authorized");
     }
     await Book.deleteOne({ _id: bookId });
@@ -150,7 +150,7 @@ export const averageRating = async (req: Request, res: Response) => {
 export const bestrating = async (req: Request, res: Response) => {
   try {
     const books = await Book.find().sort({ averageRating: -1 }).limit(3);
-    res.status(201).json({ books: books });
+    res.status(201).json(books);
   } catch (error) {
     res.status(500).json(error);
   }
